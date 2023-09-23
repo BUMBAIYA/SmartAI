@@ -1,0 +1,9 @@
+yarn.lock
+package-lock.json
+node_modules
+.bundle
+.husky
+.vscode
+android
+ios
+*.md
