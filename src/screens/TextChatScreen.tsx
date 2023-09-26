@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { PaperAirplaneIcon } from 'react-native-heroicons/mini';
@@ -36,6 +37,7 @@ export default function TextChatScreen() {
       role: 'user',
       content: query,
     };
+    Keyboard.dismiss();
     setMessages((prev) => [...prev, newMessage]);
     updateScrollView();
     setQuery('');
