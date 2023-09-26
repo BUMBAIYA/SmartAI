@@ -16,6 +16,7 @@ import { CheckBadgeIcon } from 'react-native-heroicons/outline';
 import { useAppDispatch, useAppSelector } from '@/hooks/useStore';
 import { setStoreAPIKey, setKeyVerified } from '@/store/openAIApiSlice';
 import { chatgptApiCall } from '@/api/OpenAI';
+import KeyVerificationError from '@/components/KeyVerificationFailed';
 
 const API_KEY_URL = 'https://platform.openai.com/account/api-keys';
 
@@ -124,22 +125,7 @@ export default function SettingScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-          {showError && (
-            <View className="w-full p-4 bg-red-100 rounded-lg">
-              <Text className="text-base font-semibold underline text-red-600">
-                Failed to verify API Key
-              </Text>
-              <Text className="text-base text-red-500">
-                * Incorrect API key
-              </Text>
-              <Text className="text-base text-red-500">
-                * Key may be expired
-              </Text>
-              <Text className="text-base text-red-500">
-                * Account quota may be exceeded
-              </Text>
-            </View>
-          )}
+          {showError && <KeyVerificationError />}
         </View>
       </ScrollView>
     </SafeAreaView>
