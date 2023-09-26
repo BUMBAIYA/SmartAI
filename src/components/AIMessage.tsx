@@ -3,7 +3,7 @@ import { Image, Text, View } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export type Message = {
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'error';
   content: string;
 };
 
@@ -35,6 +35,19 @@ export function AIImageMessage({ content }: AIBaseMessage) {
           style={{ height: wp(60), width: wp(60) }}
         />
       </View>
+    </View>
+  );
+}
+
+export function AIErrorMessage({ content }: AIBaseMessage) {
+  return (
+    <View
+      style={{ width: wp(70) }}
+      className="bg-red-100 border border-red-400/40 p-2 rounded-lg rounded-tl-none mt-3 px-3"
+    >
+      <Text className="text-red-600" style={{ fontSize: wp(4) }}>
+        {content}
+      </Text>
     </View>
   );
 }

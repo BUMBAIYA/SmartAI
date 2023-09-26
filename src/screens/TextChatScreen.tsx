@@ -12,7 +12,7 @@ import {
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { PaperAirplaneIcon } from 'react-native-heroicons/mini';
 import { UserMessage } from '@/components/UserMessage';
-import { AIBaseMessage, Message } from '@/components/AIMessage';
+import { AIBaseMessage, AIErrorMessage, Message } from '@/components/AIMessage';
 import { chatgptApiCall } from '@/api/OpenAI';
 import { useAppSelector } from '@/hooks/useStore';
 
@@ -51,7 +51,7 @@ export default function TextChatScreen() {
     } else {
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: data.message },
+        { role: 'error', content: 'Request failed' },
       ]);
     }
     updateScrollView();
@@ -123,6 +123,11 @@ export default function TextChatScreen() {
                   if (message.role === 'assistant') {
                     return (
                       <AIBaseMessage key={index} content={message.content} />
+                    );
+                  }
+                  if (message.role === 'error') {
+                    return (
+                      <AIErrorMessage key={index} content={message.content} />
                     );
                   }
                   return <UserMessage key={index} content={message.content} />;

@@ -37,7 +37,7 @@ export const chatgptApiCall = async (key: string, messages: Message[]) => {
     });
     const res: ChatGPTResponse = await client.post(CHAT_GPT_URL, {
       model: 'gpt-3.5-turbo',
-      messages: messages,
+      messages: messages.filter((msg) => msg.role !== 'error'),
     });
 
     const answer = res.data.choices[0].message.content;
