@@ -15,9 +15,13 @@ import { Message } from '@/components/AIMessage';
 import { chatgptApiCall } from '@/api/OpenAI';
 import { useAppSelector } from '@/hooks/useStore';
 import { DefaultChatButtons } from '@/constants/DefaultChatButtons';
+import NonVerifiedKey from '@/components/NonVerifiedKey';
 
 export default function TextChatScreen() {
   const apiKey = useAppSelector((state) => state.openAIKeyReducer.key);
+  const isKeyVerified = useAppSelector(
+    (state) => state.openAIKeyReducer.verified,
+  );
   const refScrollTextContainer = useRef<ScrollView>(null);
   const [query, setQuery] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
@@ -86,11 +90,15 @@ export default function TextChatScreen() {
             />
           )}
         </View>
-        <Inputbar
-          query={query}
-          setQuery={setQuery}
-          handleQuery={handleAddQuery}
-        />
+        {isKeyVerified ? (
+          <Inputbar
+            query={query}
+            setQuery={setQuery}
+            handleQuery={handleAddQuery}
+          />
+        ) : (
+          <NonVerifiedKey />
+        )}
       </View>
     </SafeAreaView>
   );

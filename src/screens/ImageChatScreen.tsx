@@ -15,9 +15,13 @@ import { Message } from '@/components/AIMessage';
 import { dalleApiCall } from '@/api/OpenAI';
 import { useAppSelector } from '@/hooks/useStore';
 import { DefaultImageGenerationButtons } from '@/constants/DefaultImageGenerationButton';
+import NonVerifiedKey from '@/components/NonVerifiedKey';
 
 export default function ImageChatScreen() {
   const apiKey = useAppSelector((state) => state.openAIKeyReducer.key);
+  const isKeyVerified = useAppSelector(
+    (state) => state.openAIKeyReducer.verified,
+  );
   const refScrollTextContainer = useRef<ScrollView>(null);
   const [query, setQuery] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
@@ -86,11 +90,15 @@ export default function ImageChatScreen() {
             />
           )}
         </View>
-        <Inputbar
-          query={query}
-          setQuery={setQuery}
-          handleQuery={handleAddQuery}
-        />
+        {isKeyVerified ? (
+          <Inputbar
+            query={query}
+            setQuery={setQuery}
+            handleQuery={handleAddQuery}
+          />
+        ) : (
+          <NonVerifiedKey />
+        )}
       </View>
     </SafeAreaView>
   );

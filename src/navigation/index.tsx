@@ -33,6 +33,7 @@ function MainApp() {
     <Tab.Navigator
       tabBar={MyAppBottomTabBar}
       screenOptions={{ headerShown: false }}
+      initialRouteName={TabRoutes.Chat}
     >
       <Tab.Screen name={TabRoutes.Feature} component={FeatureScreen} />
       <Tab.Screen name={TabRoutes.Chat} component={TextChatScreen} />
