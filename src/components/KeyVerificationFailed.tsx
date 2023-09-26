@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 export default function KeyVerificationError() {
   return (
-    <View className="w-full p-4 bg-red-100 rounded-lg">
+    <View className="w-full p-4 bg-red-100 rounded-lg mt-4">
       <Text className="text-base font-semibold underline text-red-600">
         Failed to verify API Key
       </Text>

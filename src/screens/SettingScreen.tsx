@@ -67,22 +67,24 @@ export default function SettingScreen() {
           >
             Setting
           </Text>
-          <View className="p-4 bg-emerald-100 rounded-lg space-y-2">
+          <View className="p-4 bg-emerald-100 border border-emerald-600/40 rounded-lg space-y-2">
             <Text className="text-xl text-emerald-600 font-semibold">
               Important
             </Text>
             <Text className="text-base">
               Please generate a valid OpenAI key from your OpenAI dashboard.
             </Text>
-            <TouchableOpacity
-              onPress={handleOpenAIDashboard}
-              className="flex-row space-x-1 items-center"
-            >
-              <Text className="underline -underline-offset-2 text-base text-emerald-600">
-                OpenAI key
-              </Text>
-              <ArrowTopRightOnSquareIcon size={20} color="#059669" />
-            </TouchableOpacity>
+            <View className="flex flex-row justify-end">
+              <TouchableOpacity
+                onPress={handleOpenAIDashboard}
+                className="flex-row space-x-1 items-center"
+              >
+                <Text className="underline font-semibold -underline-offset-2 text-base text-emerald-600">
+                  OpenAI key
+                </Text>
+                <ArrowTopRightOnSquareIcon size={20} color="#059669" />
+              </TouchableOpacity>
+            </View>
           </View>
           <View className="space-y-2">
             <Text className="font-semibold text-lg text-gray-700">
