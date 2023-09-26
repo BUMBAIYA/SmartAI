@@ -1,32 +1,61 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   SafeAreaView,
   View,
   Image,
   Text,
   ScrollView,
-  TouchableOpacity,
-  TextInput,
+  Keyboard,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { PaperAirplaneIcon } from 'react-native-heroicons/mini';
-import { UserMessage } from '@/components/UserMessage';
-import { AIBaseMessage, Message } from '@/components/AIMessage';
+import AIChatComponent from '@/components/TextChatComponent';
+import DefaultTextChatComponent from '@/components/DefaultTextChatComponent';
+import Inputbar from '@/components/Inputbar';
+import { Message } from '@/components/AIMessage';
+import { dalleApiCall } from '@/api/OpenAI';
+import { useAppSelector } from '@/hooks/useStore';
+import { DefaultImageGenerationButtons } from '@/constants/DefaultImageGenerationButton';
 
 export default function ImageChatScreen() {
+  const apiKey = useAppSelector((state) => state.openAIKeyReducer.key);
+  const refScrollTextContainer = useRef<ScrollView>(null);
   const [query, setQuery] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddQuery = () => {
-    if (query === '') {
+  const updateScrollView = () => {
+    setTimeout(() => {
+      refScrollTextContainer.current?.scrollToEnd({ animated: true });
+    }, 200);
+  };
+
+  const handleAddQuery = async (prompt: string) => {
+    if (prompt === '') {
       return;
     }
     const newMessage: Message = {
       role: 'user',
-      content: query,
+      content: prompt,
     };
+    Keyboard.dismiss();
     setMessages((prev) => [...prev, newMessage]);
+    updateScrollView();
     setQuery('');
+    setLoading(true);
+    const data = await dalleApiCall(apiKey, prompt);
+    if (data.success) {
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: data.message },
+      ]);
+    } else {
+      setMessages((prev) => [
+        ...prev,
+        { role: 'error', content: 'Request failed' },
+      ]);
+    }
+    updateScrollView();
+    setLoading(false);
   };
 
   return (
@@ -41,37 +70,27 @@ export default function ImageChatScreen() {
             style={{ width: hp(4), height: hp(4) }}
           />
         </View>
-        <View className="flex-1">
-          {messages.length === 0 ? null : (
-            <View className="bg-neutral-200 rounded-lg p-4 flex-1">
-              <ScrollView
-                bounces={false}
-                className="space-y-4"
-                showsVerticalScrollIndicator={false}
-              >
-                {messages.map((message, index) => {
-                  if (message.role === 'assistant') {
-                    return (
-                      <AIBaseMessage key={index} content={message.content} />
-                    );
-                  }
-                  return <UserMessage key={index} content={message.content} />;
-                })}
-              </ScrollView>
-            </View>
+        <View className="flex-1 pb-4">
+          {messages.length === 0 ? (
+            <DefaultTextChatComponent
+              title="Generate image"
+              buttons={DefaultImageGenerationButtons}
+              handleClick={handleAddQuery}
+            />
+          ) : (
+            <AIChatComponent
+              scrollRef={refScrollTextContainer}
+              type="image"
+              loading={loading}
+              messages={messages}
+            />
           )}
         </View>
-        <View className="border w-full items-center space-x-4 border-gray-500 rounded-lg flex flex-row px-5 py-1 bg-white">
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Chat"
-            className="flex-1 text-base"
-          />
-          <TouchableOpacity onPress={handleAddQuery}>
-            <PaperAirplaneIcon color="green" className="h-4 w-4" />
-          </TouchableOpacity>
-        </View>
+        <Inputbar
+          query={query}
+          setQuery={setQuery}
+          handleQuery={handleAddQuery}
+        />
       </View>
     </SafeAreaView>
   );

@@ -7,9 +7,7 @@ export type Message = {
   content: string;
 };
 
-export type AIBaseMessage = {
-  content: string;
-};
+export type AIBaseMessage = Pick<Message, 'content'>;
 
 export function AIBaseMessage({ content }: AIBaseMessage) {
   return (
@@ -27,7 +25,7 @@ export function AIBaseMessage({ content }: AIBaseMessage) {
 export function AIImageMessage({ content }: AIBaseMessage) {
   return (
     <View className="flex-row justify-start mt-3">
-      <View className="p-2 flex rounded-2xl bg-emerald-100 rounded-tl-none">
+      <View className="p-2 flex rounded-2xl bg-neutral-100 border border-gray-200 rounded-tl-none">
         <Image
           source={{ uri: content }}
           className="rounded-lg"

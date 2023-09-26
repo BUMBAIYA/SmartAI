@@ -62,13 +62,13 @@ export const dalleApiCall = async (key: string, prompt: string) => {
         'Content-Type': 'application/json',
       },
     });
-    const res = await client.post(DALLE_URL, {
+    const res: DalleResponse = await client.post(DALLE_URL, {
       prompt,
       n: 1,
       size: '512x512',
     });
 
-    let url: DalleResponse = res.data.data[0].url;
+    let url = res.data.data[0].url;
     return Promise.resolve({ success: true, message: url });
   } catch (err) {
     return Promise.resolve({ success: false, message: 'Stream error!' });

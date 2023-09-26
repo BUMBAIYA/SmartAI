@@ -5,16 +5,16 @@ import {
   Image,
   Text,
   ScrollView,
-  TouchableOpacity,
-  TextInput,
   Keyboard,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { PaperAirplaneIcon } from 'react-native-heroicons/mini';
-import { UserMessage } from '@/components/UserMessage';
-import { AIBaseMessage, AIErrorMessage, Message } from '@/components/AIMessage';
+import TextChatComponent from '@/components/TextChatComponent';
+import DefaultTextChatComponent from '@/components/DefaultTextChatComponent';
+import Inputbar from '@/components/Inputbar';
+import { Message } from '@/components/AIMessage';
 import { chatgptApiCall } from '@/api/OpenAI';
 import { useAppSelector } from '@/hooks/useStore';
+import { DefaultChatButtons } from '@/constants/DefaultChatButtons';
 
 export default function TextChatScreen() {
   const apiKey = useAppSelector((state) => state.openAIKeyReducer.key);
@@ -29,13 +29,13 @@ export default function TextChatScreen() {
     }, 200);
   };
 
-  const handleAddQuery = async () => {
-    if (query === '') {
+  const handleAddQuery = async (prompt: string) => {
+    if (prompt === '') {
       return;
     }
     const newMessage: Message = {
       role: 'user',
-      content: query,
+      content: prompt,
     };
     Keyboard.dismiss();
     setMessages((prev) => [...prev, newMessage]);
@@ -70,91 +70,27 @@ export default function TextChatScreen() {
             style={{ width: hp(4), height: hp(4) }}
           />
         </View>
-        <View className="flex-1 border-t-[1px] border-gray-200">
+        <View className="flex-1 pb-4">
           {messages.length === 0 ? (
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View className="flex-1">
-                <Text className="text-gray-700 py-4 text-xl font-semibold">
-                  Start chating
-                </Text>
-                <View className="space-y-4">
-                  <View className="p-4 py-3 border border-gray-500 rounded-lg">
-                    <TouchableOpacity>
-                      <Text className="text-gray-700 text-base font-semibold">
-                        Brainstorm names
-                      </Text>
-                      <Text className="text-gray-400 text-base font-semibold">
-                        for an orange cat we're adopting
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View className="p-4 border border-gray-500 rounded-lg">
-                    <TouchableOpacity>
-                      <Text className="text-gray-700 text-base font-semibold">
-                        Interview questions
-                      </Text>
-                      <Text className="text-gray-400 text-base font-semibold">
-                        for MERN stack developer
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View className="p-4 border border-gray-500 rounded-lg">
-                    <TouchableOpacity>
-                      <Text className="text-gray-700 text-base font-semibold">
-                        What is React Native?
-                      </Text>
-                      <Text className="text-gray-400 text-base font-semibold">
-                        compare with Reactjs
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </ScrollView>
+            <DefaultTextChatComponent
+              title="Start chating"
+              buttons={DefaultChatButtons}
+              handleClick={handleAddQuery}
+            />
           ) : (
-            <View className="rounded-lg px-4 flex-1">
-              <ScrollView
-                ref={refScrollTextContainer}
-                bounces={false}
-                className="space-y-4"
-                showsVerticalScrollIndicator={false}
-              >
-                {messages.map((message, index) => {
-                  if (message.role === 'assistant') {
-                    return (
-                      <AIBaseMessage key={index} content={message.content} />
-                    );
-                  }
-                  if (message.role === 'error') {
-                    return (
-                      <AIErrorMessage key={index} content={message.content} />
-                    );
-                  }
-                  return <UserMessage key={index} content={message.content} />;
-                })}
-                {loading && (
-                  <View>
-                    <Image
-                      source={require('@assets/loading.gif')}
-                      className="h-10 w-10"
-                    />
-                  </View>
-                )}
-              </ScrollView>
-            </View>
+            <TextChatComponent
+              scrollRef={refScrollTextContainer}
+              type="text"
+              loading={loading}
+              messages={messages}
+            />
           )}
         </View>
-        <View className="border w-full items-center space-x-4 border-gray-500 rounded-lg flex flex-row px-5 py-1 bg-white">
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Chat"
-            className="flex-1 text-base"
-          />
-          <TouchableOpacity onPress={handleAddQuery}>
-            <PaperAirplaneIcon color="green" className="h-4 w-4" />
-          </TouchableOpacity>
-        </View>
+        <Inputbar
+          query={query}
+          setQuery={setQuery}
+          handleQuery={handleAddQuery}
+        />
       </View>
     </SafeAreaView>
   );
