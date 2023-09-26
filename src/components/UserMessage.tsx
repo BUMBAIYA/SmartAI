@@ -11,7 +11,7 @@ export function UserMessage({ content }: UserMessage) {
     <View className="flex-row justify-end mt-3">
       <View
         style={{ width: wp(70) }}
-        className="bg-emerald-100 p-2 rounded-lg px-3"
+        className="bg-emerald-100 p-2 rounded-lg px-3 rounded-bl-none border border-emerald-600/30"
       >
         <Text style={{ fontSize: wp(4) }} className="text-neutral-800">
           {content}

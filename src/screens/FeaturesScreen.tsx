@@ -7,18 +7,12 @@ import {
 
 export default function FeatureScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-white px-4 pt-4 space-y-6">
+    <SafeAreaView className="flex-1 bg-white px-4 pt-4">
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="space-y-4 flex-1"
       >
-        <Text
-          style={{ fontSize: wp(6.5) }}
-          className="font-semibold text-gray-700 mt-4"
-        >
-          Features
-        </Text>
-        <View className="bg-emerald-200 p-4 rounded-xl space-y-2">
+        <View className="bg-emerald-200 p-4 rounded-xl space-y-2 mt-4">
           <View className="flex-row items-center space-x-2">
             <Image
               source={require('@assets/chatgptIcon.png')}

@@ -4,7 +4,6 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export type Message = {
   role: 'user' | 'assistant';
-  type: 'image' | 'text';
   content: string;
 };
 
@@ -16,7 +15,7 @@ export function AIBaseMessage({ content }: AIBaseMessage) {
   return (
     <View
       style={{ width: wp(70) }}
-      className="bg-white p-2 rounded-lg rounded-tl-none mt-3 px-3"
+      className="bg-neutral-100 border border-gray-200 p-2 rounded-lg rounded-tl-none mt-3 px-3"
     >
       <Text className="text-neutral-800" style={{ fontSize: wp(4) }}>
         {content}

@@ -2,14 +2,16 @@ import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { View, Text, TouchableOpacity } from 'react-native';
 import {
-  HomeIcon,
+  ChatBubbleBottomCenterIcon,
   Cog6ToothIcon,
   SquaresPlusIcon,
+  PhotoIcon,
 } from 'react-native-heroicons/outline';
 import {
-  HomeIcon as MiniHomeIcon,
+  ChatBubbleBottomCenterIcon as ChatBubbleBottomCenterMiniIcon,
   Cog6ToothIcon as Cog6ToothMiniIcon,
   SquaresPlusIcon as SquaresPlusMiniIcon,
+  PhotoIcon as PhotoMiniIcon,
 } from 'react-native-heroicons/mini';
 import classNames from '@/utility/css';
 import { TabNavigationRoute } from '@/navigation';
@@ -21,8 +23,10 @@ type TabIcons = Record<
 
 const TabIconsComponents: TabIcons = {
   Chat: {
-    icon: <HomeIcon color="#2f3642" className="h-7 w-7" />,
-    iconSelected: <MiniHomeIcon color="#15a37f" className="h-7 w-7" />,
+    icon: <ChatBubbleBottomCenterIcon color="#2f3642" className="h-7 w-7" />,
+    iconSelected: (
+      <ChatBubbleBottomCenterMiniIcon color="#15a37f" className="h-7 w-7" />
+    ),
   },
   Setting: {
     icon: <Cog6ToothIcon color="#2f3642" className="h-7 w-7" />,
@@ -31,6 +35,10 @@ const TabIconsComponents: TabIcons = {
   Feature: {
     icon: <SquaresPlusIcon color="#2f3642" className="h-7 w-7" />,
     iconSelected: <SquaresPlusMiniIcon color="#15a37f" className="h-7 w-7" />,
+  },
+  Image: {
+    icon: <PhotoIcon color="#2f3642" className="h-7 w-7" />,
+    iconSelected: <PhotoMiniIcon color="#15a37f" className="h-7 w-7" />,
   },
 };
 
