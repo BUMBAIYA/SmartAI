@@ -11,7 +11,7 @@ import MyAppBottomTabBar from '@/navigation/BottomTabBar';
 import ImageChatScreen from '@/screens/ImageChatScreen';
 import { useAppDispatch } from '@/hooks/useStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setStoreAPIKey } from '@/store/openAIApiSlice';
+import { setKeyVerified, setStoreAPIKey } from '@/store/openAIApiSlice';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,8 +46,12 @@ export default function AppNavigation() {
   const dispatch = useAppDispatch();
   const loadAPIKey = useCallback(async () => {
     const key = await AsyncStorage.getItem('api-key');
+    const isVerifiedKey = await AsyncStorage.getItem('api-key-verified');
     if (key) {
       dispatch(setStoreAPIKey(key));
+    }
+    if (isVerifiedKey) {
+      dispatch(setKeyVerified(Boolean(isVerifiedKey)));
     }
   }, [dispatch]);
 

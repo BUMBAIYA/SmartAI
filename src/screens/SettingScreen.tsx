@@ -43,16 +43,17 @@ export default function SettingScreen() {
       { role: 'user', content: 'Are you available? yes or no' },
     ]);
     if (data.success) {
-      await AsyncStorage.setItem('api-key', apiKey);
-      dispatch(setStoreAPIKey(apiKey));
+      await AsyncStorage.setItem('api-key-verified', 'true');
       dispatch(setKeyVerified(true));
       setShowError(false);
-      setVerifying(false);
     } else {
+      await AsyncStorage.setItem('api-key-verified', '');
       dispatch(setKeyVerified(false));
       setShowError(true);
-      setVerifying(false);
     }
+    await AsyncStorage.setItem('api-key', apiKey);
+    dispatch(setStoreAPIKey(apiKey));
+    setVerifying(false);
   };
 
   return (
