@@ -2,6 +2,8 @@
 
 Mobile application made using React native and Typescript to query OpenAI's ChatGPT and DALL-E API to genereate text and images from text prompts.
 
+![aiapp](https://github.com/BUMBAIYA/SmartAI/assets/85615075/f3b622dc-b4bd-4070-8652-7719970127da)
+
 ## Development setup
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
