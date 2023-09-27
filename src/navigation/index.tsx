@@ -3,15 +3,15 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import WelcomeScreen from '@/screens/WelcomeScreen';
 import FeatureScreen from '@/screens/FeaturesScreen';
 import TextChatScreen from '@/screens/TextChatScreen';
 import SettingScreen from '@/screens/SettingScreen';
 import MyAppBottomTabBar from '@/navigation/BottomTabBar';
 import ImageChatScreen from '@/screens/ImageChatScreen';
-import { useAppDispatch } from '@/hooks/useStore';
+import { useAppDispatch, useAppSelector } from '@/hooks/useStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setKeyVerified, setStoreAPIKey } from '@/store/openAIApiSlice';
+import VerifyOpenAIKeyScreen from '@/screens/VerifyOpenAIKeyScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,6 +44,9 @@ function MainApp() {
 }
 
 export default function AppNavigation() {
+  const isKeyVerified = useAppSelector(
+    (state) => state.openAIKeyReducer.verified,
+  );
   const dispatch = useAppDispatch();
   const loadAPIKey = useCallback(async () => {
     const key = await AsyncStorage.getItem('api-key');
@@ -63,13 +66,12 @@ export default function AppNavigation() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false }}
-          initialRouteName="Welcome"
-        >
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="MainApp" component={MainApp} />
-          <Stack.Screen name="Feature" component={FeatureScreen} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {isKeyVerified ? (
+            <Stack.Screen name="MainApp" component={MainApp} />
+          ) : (
+            <Stack.Screen name="VerifyKey" component={VerifyOpenAIKeyScreen} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
