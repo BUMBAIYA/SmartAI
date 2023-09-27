@@ -17,8 +17,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useStore';
 import { setStoreAPIKey, setKeyVerified } from '@/store/openAIApiSlice';
 import { chatgptApiCall } from '@/api/OpenAI';
 import KeyVerificationError from '@/components/KeyVerificationFailed';
-
-const API_KEY_URL = 'https://platform.openai.com/account/api-keys';
+import { OPENAI_GENERATE_KEY_URL } from '@/constants/OpenAILinks';
 
 export default function SettingScreen() {
   const openAIKey = useAppSelector((state) => state.openAIKeyReducer.key);
@@ -31,21 +30,23 @@ export default function SettingScreen() {
   const dispatch = useAppDispatch();
 
   const handleOpenAIDashboard = useCallback(async () => {
-    const supportedUrl = await Linking.canOpenURL(API_KEY_URL);
+    const supportedUrl = await Linking.canOpenURL(OPENAI_GENERATE_KEY_URL);
     if (supportedUrl) {
-      await Linking.openURL(API_KEY_URL);
+      await Linking.openURL(OPENAI_GENERATE_KEY_URL);
     }
   }, []);
 
   const handleSaveApiKey = async () => {
-    dispatch(setKeyVerified(false));
     setVerifying(true);
     const data = await chatgptApiCall(apiKey, [
       { role: 'user', content: 'Are you available? yes or no' },
     ]);
+    dispatch(setStoreAPIKey(apiKey));
     if (data.success) {
-      await AsyncStorage.setItem('api-key-verified', 'true');
-      dispatch(setKeyVerified(true));
+      if (!isKeyVerified) {
+        await AsyncStorage.setItem('api-key-verified', 'true');
+        dispatch(setKeyVerified(true));
+      }
       setShowError(false);
     } else {
       await AsyncStorage.setItem('api-key-verified', '');
@@ -53,7 +54,6 @@ export default function SettingScreen() {
       setShowError(true);
     }
     await AsyncStorage.setItem('api-key', apiKey);
-    dispatch(setStoreAPIKey(apiKey));
     setVerifying(false);
   };
 
@@ -111,7 +111,7 @@ export default function SettingScreen() {
                 className="h-9 w-9"
               />
             )}
-            {isKeyVerified && (
+            {isKeyVerified && !verifying && (
               <CheckBadgeIcon color="#009669" size={30} className="h-9 w-9" />
             )}
             <TouchableOpacity

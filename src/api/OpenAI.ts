@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { Message } from '@/components/AIMessage';
-
-const CHAT_GPT_URL = 'https://api.openai.com/v1/chat/completions';
-const DALLE_URL = 'https://api.openai.com/v1/images/generations';
+import { CHAT_GPT_API_URL, DALLE_API_URL } from '@/constants/OpenAILinks';
 
 // Refrence: https://platform.openai.com/docs/api-reference/chat/create
 type ChatGPTResponse = {
@@ -35,7 +33,7 @@ export const chatgptApiCall = async (key: string, messages: Message[]) => {
         'Content-Type': 'application/json',
       },
     });
-    const res: ChatGPTResponse = await client.post(CHAT_GPT_URL, {
+    const res: ChatGPTResponse = await client.post(CHAT_GPT_API_URL, {
       model: 'gpt-3.5-turbo',
       messages: messages.filter((msg) => msg.role !== 'error'),
     });
@@ -62,7 +60,7 @@ export const dalleApiCall = async (key: string, prompt: string) => {
         'Content-Type': 'application/json',
       },
     });
-    const res: DalleResponse = await client.post(DALLE_URL, {
+    const res: DalleResponse = await client.post(DALLE_API_URL, {
       prompt,
       n: 1,
       size: '512x512',
