@@ -7,7 +7,7 @@ import {
 
 export default function FeatureScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-white px-4 pt-4">
+    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900 px-4 pt-4">
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="space-y-4 flex-1"
