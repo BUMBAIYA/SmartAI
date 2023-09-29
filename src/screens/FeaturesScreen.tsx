@@ -20,14 +20,14 @@ export default function FeatureScreen() {
             />
             <Text
               style={{ fontSize: wp(4.8) }}
-              className="font-semibold text-gray-700"
+              className="font-semibold text-zinc-900"
             >
               ChatGPT
             </Text>
           </View>
           <Text
             style={{ fontSize: wp(3.8) }}
-            className="font-medium text-gray-700"
+            className="font-medium text-zinc-700"
           >
             ChatGPT can provide you with instant and knowledgeable response,
             assist you with creative ideas.
@@ -41,14 +41,14 @@ export default function FeatureScreen() {
             />
             <Text
               style={{ fontSize: wp(4.8) }}
-              className="font-semibold text-gray-700"
+              className="font-semibold text-zinc-900"
             >
               DALL-E
             </Text>
           </View>
           <Text
             style={{ fontSize: wp(3.8) }}
-            className="font-medium text-gray-700"
+            className="font-medium text-zinc-700"
           >
             DALL-E can generate imaginative and diverse images from textual
             descriptions, expanding the boundaries of visual creativity.
@@ -62,14 +62,14 @@ export default function FeatureScreen() {
             />
             <Text
               style={{ fontSize: wp(4.8) }}
-              className="font-semibold text-gray-700"
+              className="font-semibold text-zinc-900"
             >
               Smart AI
             </Text>
           </View>
           <Text
             style={{ fontSize: wp(3.8) }}
-            className="font-medium text-gray-700"
+            className="font-medium text-zinc-700"
           >
             A powerful voice assistant with the abilities of ChatGPT and Dall-E,
             providing you the best of both worlds.

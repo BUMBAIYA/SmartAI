@@ -18,8 +18,10 @@ import { setStoreAPIKey, setKeyVerified } from '@/store/openAIApiSlice';
 import { chatgptApiCall } from '@/api/OpenAI';
 import KeyVerificationError from '@/components/KeyVerificationFailed';
 import { OPENAI_GENERATE_KEY_URL } from '@/constants/OpenAILinks';
+import { useColorScheme } from 'nativewind';
 
 export default function SettingScreen() {
+  const { colorScheme, setColorScheme } = useColorScheme();
   const openAIKey = useAppSelector((state) => state.openAIKeyReducer.key);
   const isKeyVerified = useAppSelector(
     (state) => state.openAIKeyReducer.verified,
@@ -58,43 +60,48 @@ export default function SettingScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white px-4 pt-4">
+    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900 px-4 pt-4">
       <ScrollView className="space-y-8">
-        <View className="space-y-4">
+        <View className="space-y-8">
           <Text
             style={{ fontSize: wp(6.5) }}
-            className="font-semibold text-gray-700"
+            className="font-semibold text-zinc-900 dark:text-zinc-100"
           >
             Setting
           </Text>
-          <View className="p-4 bg-emerald-100 border border-emerald-600/40 rounded-lg space-y-2">
-            <Text className="text-xl text-emerald-600 font-semibold">
-              Important
+          <View className="p-4 border dark:bg-emerald-600 border-gray-600 rounded-lg space-y-2">
+            <Text className="text-xl text-zinc-900 dark:text-zinc-100 font-semibold">
+              Generate key
             </Text>
-            <Text className="text-base">
+            <Text className="text-base dark:text-emerald-100">
               Please generate a valid OpenAI key from your OpenAI dashboard.
+              Link below
             </Text>
             <View className="flex flex-row justify-end">
               <TouchableOpacity
                 onPress={handleOpenAIDashboard}
                 className="flex-row space-x-1 items-center"
               >
-                <Text className="underline font-semibold -underline-offset-2 text-base text-emerald-600">
+                <Text className="underline font-semibold -underline-offset-2 text-lg text-emerald-600 dark:text-zinc-100">
                   OpenAI key
                 </Text>
-                <ArrowTopRightOnSquareIcon size={20} color="#059669" />
+                <ArrowTopRightOnSquareIcon
+                  size={20}
+                  color={colorScheme === 'light' ? '#059669' : '#f4f4f4'}
+                  className="dark:text-emerald-200"
+                />
               </TouchableOpacity>
             </View>
           </View>
           <View className="space-y-2">
-            <Text className="font-semibold text-lg text-gray-700">
+            <Text className="font-semibold text-lg text-zinc-900 dark:text-zinc-100">
               OpenAI API Key
             </Text>
-            <View className="px-3 space-y-2 py-1 border border-gray-500 rounded-lg">
+            <View className="px-2 space-y-2 border border-gray-500 rounded-lg">
               <TextInput
                 value={apiKey}
                 onChangeText={setApiKey}
-                numberOfLines={3}
+                numberOfLines={2}
                 placeholder="API KEY"
                 style={{ textAlignVertical: 'top' }} // eslint-disable-line react-native/no-inline-styles
                 className="text-base"
@@ -108,17 +115,17 @@ export default function SettingScreen() {
             {verifying && (
               <Image
                 source={require('@assets/loading.gif')}
-                className="h-9 w-9"
+                style={{ height: wp(8), width: wp(8) }}
               />
             )}
             {isKeyVerified && !verifying && (
-              <CheckBadgeIcon color="#009669" size={30} className="h-9 w-9" />
+              <CheckBadgeIcon color="#009669" size={wp(8)} />
             )}
             <TouchableOpacity
               onPress={handleSaveApiKey}
-              className="bg-emerald-100 px-3 py-1 rounded-lg border border-emerald-600/40"
+              className="bg-emerald-100 dark:bg-emerald-600 px-3 py-1 rounded-lg border border-emerald-600/40"
             >
-              <Text className="text-lg font-semibold">
+              <Text className="text-lg text-zinc-900 dark:text-zinc-100 font-semibold">
                 {verifying
                   ? 'Verifying'
                   : isKeyVerified
