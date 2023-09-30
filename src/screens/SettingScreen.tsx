@@ -21,7 +21,7 @@ import { OPENAI_GENERATE_KEY_URL } from '@/constants/OpenAILinks';
 import { useColorScheme } from 'nativewind';
 
 export default function SettingScreen() {
-  const { colorScheme, setColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const openAIKey = useAppSelector((state) => state.openAIKeyReducer.key);
   const isKeyVerified = useAppSelector(
     (state) => state.openAIKeyReducer.verified,
@@ -88,7 +88,6 @@ export default function SettingScreen() {
                 <ArrowTopRightOnSquareIcon
                   size={20}
                   color={colorScheme === 'light' ? '#059669' : '#f4f4f4'}
-                  className="dark:text-emerald-200"
                 />
               </TouchableOpacity>
             </View>

@@ -31,7 +31,7 @@ export const TabRoutes: TabRoutes = {
 function MainApp() {
   return (
     <Tab.Navigator
-      tabBar={MyAppBottomTabBar}
+      tabBar={(props) => <MyAppBottomTabBar {...props} />} //eslint-disable-line react/no-unstable-nested-components
       screenOptions={{ headerShown: false }}
       initialRouteName={TabRoutes.Chat}
     >

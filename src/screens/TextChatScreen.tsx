@@ -63,10 +63,10 @@ export default function TextChatScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900">
       <View className="flex-1 mx-5 flex py-4 space-y-6">
         <View className="flex-row justify-end space-x-3 items-center">
-          <Text className="text-gray-700 text-base font-semibold">
+          <Text className="text-zinc-700 dark:text-zinc-100 text-base font-semibold">
             Powered by ChatGPT
           </Text>
           <Image

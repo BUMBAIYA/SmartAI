@@ -20,7 +20,7 @@ export default function DefaultTextChatComponent({
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View className="flex-1">
-        <Text className="text-gray-700 py-4 text-xl font-semibold">
+        <Text className="text-zinc-700 dark:text-zinc-100 py-4 text-xl font-semibold">
           {title}
         </Text>
         <View className="space-y-4">
@@ -49,8 +49,10 @@ function ChatDefaultButton({
   return (
     <View className="p-4 py-3 border my-2 border-gray-500 rounded-lg">
       <TouchableOpacity onPress={() => handleClick(`${title}, ${desc}`)}>
-        <Text className="text-gray-700 text-base font-semibold">{title}</Text>
-        <Text className="text-gray-400 text-base font-semibold">{desc}</Text>
+        <Text className="text-zinc-700 dark:text-zinc-100 text-base font-semibold">
+          {title}
+        </Text>
+        <Text className="text-zinc-400 text-base font-semibold">{desc}</Text>
       </TouchableOpacity>
     </View>
   );

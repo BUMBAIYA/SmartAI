@@ -6,6 +6,7 @@ import {
   Cog6ToothIcon,
   SquaresPlusIcon,
   PhotoIcon,
+  XMarkIcon,
 } from 'react-native-heroicons/outline';
 import {
   ChatBubbleBottomCenterIcon as ChatBubbleBottomCenterMiniIcon,
@@ -15,40 +16,70 @@ import {
 } from 'react-native-heroicons/mini';
 import classNames from '@/utility/css';
 import { TabNavigationRoute } from '@/navigation';
+import { useColorScheme } from 'nativewind';
 
-type TabIcons = Record<
-  TabNavigationRoute,
-  { icon: JSX.Element; iconSelected: JSX.Element }
->;
-
-const TabIconsComponents: TabIcons = {
-  Chat: {
-    icon: <ChatBubbleBottomCenterIcon color="#2f3642" className="h-7 w-7" />,
-    iconSelected: (
-      <ChatBubbleBottomCenterMiniIcon color="#15a37f" className="h-7 w-7" />
-    ),
-  },
-  Setting: {
-    icon: <Cog6ToothIcon color="#2f3642" className="h-7 w-7" />,
-    iconSelected: <Cog6ToothMiniIcon color="#15a37f" className="h-7 w-7" />,
-  },
-  Feature: {
-    icon: <SquaresPlusIcon color="#2f3642" className="h-7 w-7" />,
-    iconSelected: <SquaresPlusMiniIcon color="#15a37f" className="h-7 w-7" />,
-  },
-  Image: {
-    icon: <PhotoIcon color="#2f3642" className="h-7 w-7" />,
-    iconSelected: <PhotoMiniIcon color="#15a37f" className="h-7 w-7" />,
-  },
+type BottomTabbarIconProps = {
+  route: TabNavigationRoute;
+  isFocused: boolean;
 };
+
+function BottomTabbarIcon({ route, isFocused }: BottomTabbarIconProps) {
+  const { colorScheme } = useColorScheme();
+  switch (route) {
+    case 'Feature': {
+      return isFocused ? (
+        <SquaresPlusMiniIcon color="#15a37f" className="h-7 w-7" />
+      ) : (
+        <SquaresPlusIcon
+          color={colorScheme === 'light' ? '#18181b' : '#f4f4f5'}
+          className="h-7 w-7"
+        />
+      );
+    }
+    case 'Chat': {
+      return isFocused ? (
+        <ChatBubbleBottomCenterMiniIcon color="#15a37f" className="h-7 w-7" />
+      ) : (
+        <ChatBubbleBottomCenterIcon
+          color={colorScheme === 'light' ? '#18181b' : '#f4f4f5'}
+          className="h-7 w-7"
+        />
+      );
+    }
+    case 'Image': {
+      return isFocused ? (
+        <PhotoMiniIcon color="#15a37f" className="h-7 w-7" />
+      ) : (
+        <PhotoIcon
+          color={colorScheme === 'light' ? '#18181b' : '#f4f4f5'}
+          className="h-7 w-7"
+        />
+      );
+    }
+    case 'Setting': {
+      return isFocused ? (
+        <Cog6ToothMiniIcon color="#15a37f" className="h-7 w-7" />
+      ) : (
+        <Cog6ToothIcon
+          color={colorScheme === 'light' ? '#18181b' : '#f4f4f5'}
+          className="h-7 w-7"
+        />
+      );
+    }
+    default: {
+      return <XMarkIcon color="#18181b" className="h-7 w-7" />;
+    }
+  }
+}
 
 export default function MyAppBottomTabBar({
   state,
   descriptors,
   navigation,
 }: BottomTabBarProps) {
+  const { colorScheme } = useColorScheme();
   return (
-    <View className="flex-row justify-around items-center py-2 bg-white border-t-[1px] border-gray-500/20 shadow-md">
+    <View className="flex-row justify-around items-center py-2 bg-white dark:bg-zinc-900 border-t-[1px] border-gray-500/20 shadow-md">
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -92,15 +123,17 @@ export default function MyAppBottomTabBar({
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            className="flex-col gap-1 items-center"
+            className="flex-col gap-1 items-center py-1"
           >
-            {isFocused
-              ? TabIconsComponents[routeName].iconSelected
-              : TabIconsComponents[routeName].icon}
+            <BottomTabbarIcon isFocused={isFocused} route={routeName} />
             <Text
               className={classNames(
-                'text-base',
-                isFocused ? 'text-emerald-600 font-semibold' : 'text-gray-700',
+                'text-sm',
+                isFocused
+                  ? 'text-emerald-600 font-semibold'
+                  : colorScheme === 'light'
+                  ? 'text-zinc-900'
+                  : 'text-zinc-100',
               )}
             >
               {typeof label === 'string' && label}

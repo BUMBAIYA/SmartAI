@@ -16,8 +16,10 @@ import { dalleApiCall } from '@/api/OpenAI';
 import { useAppSelector } from '@/hooks/useStore';
 import { DefaultImageGenerationButtons } from '@/constants/DefaultImageGenerationButton';
 import NonVerifiedKey from '@/components/NonVerifiedKey';
+import { useColorScheme } from 'nativewind';
 
 export default function ImageChatScreen() {
+  const { colorScheme } = useColorScheme();
   const apiKey = useAppSelector((state) => state.openAIKeyReducer.key);
   const isKeyVerified = useAppSelector(
     (state) => state.openAIKeyReducer.verified,
@@ -63,16 +65,23 @@ export default function ImageChatScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900">
       <View className="flex-1 mx-5 flex py-4 space-y-6">
         <View className="flex-row justify-end space-x-3 items-center">
-          <Text className="text-gray-700 text-base font-semibold">
+          <Text className="text-zinc-700 dark:text-zinc-100 text-base font-semibold">
             Powered by DALL-E
           </Text>
-          <Image
-            source={require('@assets/dalleIcon.png')}
-            style={{ width: hp(4), height: hp(4) }}
-          />
+          {colorScheme === 'light' ? (
+            <Image
+              source={require('@assets/dalleIcon.png')}
+              style={{ width: hp(4), height: hp(4) }}
+            />
+          ) : (
+            <Image
+              source={require('@assets/openaiDark.png')}
+              style={{ width: hp(4), height: hp(4) }}
+            />
+          )}
         </View>
         <View className="flex-1 pb-4">
           {messages.length === 0 ? (

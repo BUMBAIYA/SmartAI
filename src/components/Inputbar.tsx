@@ -14,15 +14,15 @@ export default function Inputbar({
   handleQuery,
 }: InputbarProps) {
   return (
-    <View className="border w-full items-center space-x-4 border-gray-500 rounded-lg flex flex-row px-5 py-1 bg-white">
+    <View className="border w-full items-center space-x-4 border-gray-500 rounded-lg flex flex-row px-3 py-0">
       <TextInput
         value={query}
         onChangeText={setQuery}
         placeholder="Chat"
-        className="flex-1 text-base"
+        className="flex-1 text-sm text-zinc-700 dark:text-zinc-100"
       />
       <TouchableOpacity onPress={() => handleQuery(query)}>
-        <PaperAirplaneIcon color="green" className="h-4 w-4" />
+        <PaperAirplaneIcon color="#15a37f" className="h-4 w-4" />
       </TouchableOpacity>
     </View>
   );

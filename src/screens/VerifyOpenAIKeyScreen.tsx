@@ -25,8 +25,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useColorScheme } from 'nativewind';
 
 export default function VerifyOpenAIKeyScreen() {
+  const { colorScheme } = useColorScheme();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const openAIKey = useAppSelector((state) => state.openAIKeyReducer.key);
   const [apiKey, setApiKey] = useState(openAIKey);
@@ -67,25 +69,32 @@ export default function VerifyOpenAIKeyScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white px-4 pt-4">
+    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900 px-4 pt-4">
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         <View className="flex-1 space-y-4">
           <View className="flex-row justify-center mt-6">
             <View className="flex-col items-center">
-              <Image
-                source={require('@assets/dalleIcon.png')}
-                style={{ height: hp(10), width: hp(10) }}
-              />
+              {colorScheme === 'light' ? (
+                <Image
+                  source={require('@assets/dalleIcon.png')}
+                  style={{ height: hp(10), width: hp(10) }}
+                />
+              ) : (
+                <Image
+                  source={require('@assets/openaiDark.png')}
+                  style={{ height: hp(10), width: hp(10) }}
+                />
+              )}
               <Text
                 style={{ fontSize: wp(8) }}
-                className="font-bold text-gray-700"
+                className="font-bold text-zinc-700 dark:text-zinc-100"
               >
                 OpenAI
               </Text>
             </View>
           </View>
-          <View className="p-4 border border-gray-600 rounded-lg space-y-2">
-            <Text className="text-xl text-gray-700 font-semibold">
+          <View className="p-4 border border-zinc-600 rounded-lg space-y-2">
+            <Text className="text-xl text-zinc-700 dark:text-zinc-100 font-semibold">
               Generate key
             </Text>
             <Text className="text-base">
@@ -97,18 +106,21 @@ export default function VerifyOpenAIKeyScreen() {
                 onPress={handleOpenAIDashboard}
                 className="flex-row space-x-1 items-center"
               >
-                <Text className="underline font-semibold -underline-offset-2 text-lg text-emerald-600">
+                <Text className="underline font-semibold -underline-offset-2 text-lg text-emerald-600 dark:text-emerald-300">
                   OpenAI key
                 </Text>
-                <ArrowTopRightOnSquareIcon size={20} color="#059669" />
+                <ArrowTopRightOnSquareIcon
+                  size={20}
+                  color={colorScheme === 'light' ? '#059669' : '#6ee7b7'}
+                />
               </TouchableOpacity>
             </View>
           </View>
           <View className="space-y-2">
-            <Text className="font-semibold text-lg text-gray-700">
+            <Text className="font-semibold text-lg text-zinc-700 dark:text-zinc-100">
               OpenAI API Key
             </Text>
-            <View className="px-3 space-y-2 py-1 border border-gray-500 rounded-lg">
+            <View className="px-3 space-y-2 py-1 border border-zinc-500 rounded-lg">
               <TextInput
                 value={apiKey}
                 onChangeText={setApiKey}
@@ -124,7 +136,7 @@ export default function VerifyOpenAIKeyScreen() {
           </View>
           <TouchableOpacity
             onPress={handleSaveApiKey}
-            className="space-x-2 bg-emerald-100 border items-center border-emerald-300 flex-row justify-center rounded-lg px-4 py-3"
+            className="space-x-2 bg-emerald-100 border items-center dark:bg-emerald-600 border-emerald-300 flex-row justify-center rounded-lg px-4 py-3"
           >
             {verifying && (
               <Image
@@ -133,11 +145,15 @@ export default function VerifyOpenAIKeyScreen() {
               />
             )}
             {isKeyVerified && (
-              <CheckBadgeIcon color="#009669" size={30} className="h-9 w-9" />
+              <CheckBadgeIcon
+                color={colorScheme === 'light' ? '#009669' : '#f4f4f5'}
+                size={30}
+                className="h-9 w-9"
+              />
             )}
             <Text
               style={{ fontSize: wp(5) }}
-              className="text-lg font-semibold text-emerald-600"
+              className="text-lg font-semibold text-emerald-600 dark:text-zinc-100"
             >
               {verifying ? 'Verifying' : isKeyVerified ? 'Verified' : 'Verify'}
             </Text>
@@ -151,7 +167,7 @@ export default function VerifyOpenAIKeyScreen() {
           >
             <Text
               style={{ fontSize: wp(6) }}
-              className="font-bold text-gray-100"
+              className="font-bold text-zinc-100"
             >
               Proceed
             </Text>
