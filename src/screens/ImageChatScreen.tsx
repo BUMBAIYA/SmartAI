@@ -1,13 +1,6 @@
 import React, { useRef, useState } from 'react';
-import {
-  SafeAreaView,
-  View,
-  Image,
-  Text,
-  ScrollView,
-  Keyboard,
-} from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { SafeAreaView, View, Text, ScrollView, Keyboard } from 'react-native';
+import { useColorScheme } from 'nativewind';
 import AIChatComponent from '@/components/TextChatComponent';
 import DefaultTextChatComponent from '@/components/DefaultTextChatComponent';
 import Inputbar from '@/components/Inputbar';
@@ -16,7 +9,7 @@ import { dalleApiCall } from '@/api/OpenAI';
 import { useAppSelector } from '@/hooks/useStore';
 import { DefaultImageGenerationButtons } from '@/constants/DefaultImageGenerationButton';
 import NonVerifiedKey from '@/components/NonVerifiedKey';
-import { useColorScheme } from 'nativewind';
+import OpenAIImage from '@/components/OpenAIImage';
 
 export default function ImageChatScreen() {
   const { colorScheme } = useColorScheme();
@@ -68,20 +61,10 @@ export default function ImageChatScreen() {
     <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900">
       <View className="flex-1 mx-5 flex py-4 space-y-6">
         <View className="flex-row justify-end space-x-3 items-center">
-          <Text className="text-zinc-700 dark:text-zinc-100 text-base font-semibold">
+          <Text className="text-zinc-700 mr-3 dark:text-zinc-100 text-base font-semibold">
             Powered by DALL-E
           </Text>
-          {colorScheme === 'light' ? (
-            <Image
-              source={require('@assets/dalleIcon.png')}
-              style={{ width: hp(4), height: hp(4) }}
-            />
-          ) : (
-            <Image
-              source={require('@assets/openaiDark.png')}
-              style={{ width: hp(4), height: hp(4) }}
-            />
-          )}
+          <OpenAIImage key={colorScheme} colorScheme={colorScheme} />
         </View>
         <View className="flex-1 pb-4">
           {messages.length === 0 ? (
